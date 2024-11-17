@@ -9,9 +9,9 @@ import streamProcessor.appRecord;
 
 public class AppSerde<T>  {
 
-public static Serde<appRecord> customSerde(){
+public static Serde<appRecord> appRecordSerde(){
   GsonSerializer<appRecord> serializer = new GsonSerializer<>();
-  GsonDeserializer <appRecord>  deserializer = new GsonDeserializer<>();
+  GsonDeserializer <appRecord>  deserializer = new GsonDeserializer<>(appRecord.class);
   return Serdes.serdeFrom (serializer, deserializer);
 }
 

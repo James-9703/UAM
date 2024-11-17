@@ -1,3 +1,16 @@
 java
 xprintidle
-wmctrl
+wmctrl --
+edit visudo
+--inotify-tools
+
+
+
+command to run
+sudo ufw status
+blkid -s TYPE | grep -v LUKS - for full disk encryption
+software version - env config file
+xprintidle
+most ran sudo command of per user - count
+keystroke
+watcherservice
