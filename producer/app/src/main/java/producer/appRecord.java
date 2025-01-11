@@ -8,12 +8,12 @@ import java.io.InputStreamReader;
 public class appRecord {
     private String userName;
     private String ip;
-    private ArrayList <String> openedApp;
+    private ArrayList <String> openedApp = new ArrayList<>();
     private int idleTime;
     private boolean firewall;
     private boolean  disk;
     //0 - unauthorized app, 1 - idletime, 2 - firewall, 3 - encryption
-    public boolean[] violation = new boolean[4];    
+    public String violation = "";    
     
     public appRecord () {
        this.setProfile();
@@ -46,7 +46,7 @@ public class appRecord {
             ProcessBuilder processBuilder = new ProcessBuilder(
                 "bash",
                 "-c",
-                "if sudo ufw status | grep -q \"Status: active\"; then\n" + //
+                "if systemctl status ufw | grep -q \"Active: active\"; then\n" + //
                                         "    echo \"true\"\n" + //
                                         "else\n" + //
                                         "    echo \"false\"\n" + //
@@ -98,7 +98,8 @@ public class appRecord {
 
 
     public void setOpenedApp(){
-        openedApp.clear();
+            openedApp.clear();
+        
 
         try {
             ProcessBuilder processBuilder = new ProcessBuilder(

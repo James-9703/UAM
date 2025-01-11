@@ -13,4 +13,4 @@ software version - env config file
 xprintidle
 most ran sudo command of per user - count
 keystroke
-watcherservice
+watcherservice, chmod o+r /tmp/sudo

@@ -1,0 +1,6 @@
+docker exec -it ksqldb-cli ksql http://ksqldb-server:8088
+
+CREATE STREAM  violation (username STRING , ip STRING, openedApp ARRAY<VARCHAR>, idleTime INT, firewall BOOLEAN, disk BOOLEAN, violation STRING) WITH (kafka_topic='statusV', value_format='json');
+
+
+select username, io, violation from violation  emit changes;

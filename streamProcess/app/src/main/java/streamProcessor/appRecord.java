@@ -12,7 +12,7 @@ public class appRecord {
     private boolean firewall;
     private boolean  disk;
     //0 - unauthorized app, 1 - idletime, 2 - firewall, 3 - encryption
-    public boolean[] violation = new boolean[4];    
+    public String  violation = "";    
     
     public appRecord () {
        this.setProfile();

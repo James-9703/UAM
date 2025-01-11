@@ -53,7 +53,7 @@ public class StatusService {
     while (range.hasNext()) {
       KeyValue<String, appRecord> next = range.next();
       String host = next.key;
-      appRecord  status = next.value;
+      appRecord status = next.value;
       user.put(host, status);
     }
     //prevent memory leak
