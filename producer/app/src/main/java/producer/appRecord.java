@@ -1,7 +1,7 @@
 package producer;
 import java.util.ArrayList;
 import java.io.BufferedReader;
-import java.io.File;
+//import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
@@ -11,7 +11,7 @@ public class appRecord {
     private ArrayList <String> openedApp = new ArrayList<>();
     private int idleTime;
     private boolean firewall;
-    private boolean  disk;
+    private int  pw;
     //0 - unauthorized app, 1 - idletime, 2 - firewall, 3 - encryption
     public String violation = "";    
     
@@ -46,7 +46,7 @@ public class appRecord {
             ProcessBuilder processBuilder = new ProcessBuilder(
                 "bash",
                 "-c",
-                "if systemctl status ufw | grep -q \"Active: active\"; then\n" + //
+                "if [[ $(systemctl is-active ufw) == 'active' ]]; then\n" + //
                                         "    echo \"true\"\n" + //
                                         "else\n" + //
                                         "    echo \"false\"\n" + //
@@ -69,16 +69,12 @@ public class appRecord {
         }
     }
     
-    public void setEncrypt(){
+    public void setPw(){
         try {
             ProcessBuilder processBuilder = new ProcessBuilder(
                 "bash",
                 "-c",
-                "if sudo blkid -s TYPE | grep -vq \"LUKS\"; then\n" + //
-                                        "    echo \"true\"\n" + //
-                                        "else\n" + //
-                                        "    echo \"false\"\n" + //
-                                        "fi\n"
+                "chage -l " + userName + " | awk '/Maximum number of days between password change/ {print $NF}'"
             );
             Process process = processBuilder.start();
 
@@ -87,7 +83,7 @@ public class appRecord {
             );
             String line;
             line = reader.readLine();
-            disk = Boolean.parseBoolean(line);
+            pw = Integer.parseInt(line);
 
             int exitCode = process.waitFor();
         } catch (Exception e) {

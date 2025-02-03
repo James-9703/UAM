@@ -14,7 +14,7 @@ public class SudoWatch {
         //server config
         final Map<String, Object> config = Map.of(
             ProducerConfig.BOOTSTRAP_SERVERS_CONFIG,
-            "192.168.1.19:9092",
+            "localhost:29092,localhost:39092,localhost:49092",
             ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG,
             StringSerializer.class.getName(),
             ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG,

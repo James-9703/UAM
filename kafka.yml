@@ -1,0 +1,180 @@
+networks:
+  pipeline:
+
+services:
+  broker-1:
+    image: apache/kafka:latest
+    container_name: broker-1
+    ports:
+      - 29092:9092
+    healthcheck:
+      test: nc -z localhost 9092 || exit -1
+      interval: 15s
+      timeout: 1s
+      retries: 2
+      start_period: 30s
+    restart: on-failure
+    environment:
+      KAFKA_NODE_ID: 1
+      KAFKA_PROCESS_ROLES: broker,controller
+      KAFKA_LISTENERS: 'PLAINTEXT://:19092,PLAINTEXT_HOST://:9092,CONTROLLER://:9093'
+      KAFKA_ADVERTISED_LISTENERS: 'PLAINTEXT://broker-1:19092,PLAINTEXT_HOST://localhost:29092'
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@broker-1:9093,2@broker-2:9093,3@broker-3:9093
+      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+        #      KAFKA_JMX_PORT: 7071
+      KAFKA_JMX_HOSTNAME: broker-1
+      KAFKA_OPTS: "-javaagent:/conFile/jmx_prometheus_javaagent-1.1.0.jar=7074:/conFile/exporter.yml"
+    networks:
+      - pipeline      
+    volumes:
+      - ./conFile:/conFile
+
+
+  broker-2:
+    image: apache/kafka:latest
+    container_name: broker-2
+    ports:
+      - 39092:9092
+    healthcheck:
+      test: nc -z localhost 9092 || exit -1
+      interval: 15s
+      timeout: 1s
+      retries: 2
+      start_period: 30s
+    restart: on-failure
+    environment:
+      KAFKA_NODE_ID: 2
+      KAFKA_PROCESS_ROLES: broker,controller
+      KAFKA_LISTENERS: 'PLAINTEXT://:19092,PLAINTEXT_HOST://:9092,CONTROLLER://:9093'
+      KAFKA_ADVERTISED_LISTENERS: 'PLAINTEXT://broker-2:19092,PLAINTEXT_HOST://localhost:39092'
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@broker-1:9093,2@broker-2:9093,3@broker-3:9093
+      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+        #      KAFKA_JMX_PORT: 7072
+      KAFKA_JMX_HOSTNAME: broker-2
+      KAFKA_OPTS: "-javaagent:/conFile/jmx_prometheus_javaagent-1.1.0.jar=7075:/conFile/exporter.yml"
+    networks:
+      - pipeline     
+    volumes:
+      - ./conFile:/conFile
+
+      
+  broker-3:
+    image: apache/kafka:latest
+    container_name: broker-3
+    ports:
+      - 49092:9092
+    healthcheck:
+      test: nc -z localhost 9092 || exit -1
+      interval: 15s
+      timeout: 1s
+      retries: 2
+      start_period: 30s
+    restart: on-failure
+    environment:
+      KAFKA_NODE_ID: 3
+      KAFKA_PROCESS_ROLES: broker,controller
+      KAFKA_LISTENERS: 'PLAINTEXT://:19092,PLAINTEXT_HOST://:9092,CONTROLLER://:9093'
+      KAFKA_ADVERTISED_LISTENERS: 'PLAINTEXT://broker-3:19092,PLAINTEXT_HOST://localhost:49092'
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@broker-1:9093,2@broker-2:9093,3@broker-3:9093
+      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+#       KAFKA_JMX_PORT: 7073
+      KAFKA_JMX_HOSTNAME: broker-3
+      KAFKA_OPTS: "-javaagent:/conFile/jmx_prometheus_javaagent-1.1.0.jar=7076:/conFile/exporter.yml"
+    volumes:
+      - ./conFile:/conFile
+    networks:
+      - pipeline
+
+  prometheus:
+    image: "prom/prometheus:latest"
+    container_name: prometheus
+    ports:
+     - "9090:9090"
+    volumes:
+      - ./conFile/prometheus.yml:/conFile/prometheus.yml
+    command: "--config.file=/conFile/prometheus.yml"
+    networks:
+      - pipeline
+    depends_on:
+      - broker-1
+      - broker-2
+      - broker-3
+
+
+  ksqldb-server:
+      image: confluentinc/cp-ksqldb-server:7.8.0
+      hostname: ksqldb-server
+      container_name: ksqldb-server
+      ports:
+      - "8088:8088"
+      environment:
+        KSQL_CONFIG_DIR: "/etc/ksql"
+        KSQL_BOOTSTRAP_SERVERS: "broker-1:19092,broker-2:19092,broker-3:19092"
+        KSQL_HOST_NAME: ksqldb-server
+        KSQL_LISTENERS: "http://0.0.0.0:8088"
+        KSQL_CACHE_MAX_BYTES_BUFFERING: 0
+        KSQL_KSQL_SCHEMA_REGISTRY_URL: "http://schema-registry:8081"
+        KSQL_PRODUCER_INTERCEPTOR_CLASSES: "io.confluent.monitoring.clients.interceptor.MonitoringProducerInterceptor"
+        KSQL_CONSUMER_INTERCEPTOR_CLASSES: "io.confluent.monitoring.clients.interceptor.MonitoringConsumerInterceptor"
+        KSQL_KSQL_CONNECT_URL: "http://connect:8083"
+        KSQL_KSQL_LOGGING_PROCESSING_TOPIC_REPLICATION_FACTOR: 1
+        KSQL_KSQL_LOGGING_PROCESSING_TOPIC_AUTO_CREATE: 'true'
+        KSQL_KSQL_LOGGING_PROCESSING_STREAM_AUTO_CREATE: 'true'
+      networks:
+        - pipeline
+      depends_on:
+        - broker-1
+        - broker-2
+        - broker-3
+
+  userstat:
+    image: user_stat:1
+    container_name: user_stat-Kstream
+    restart: on-failure
+    depends_on:
+      - broker-1
+      - broker-2
+      - broker-3
+      - ksqldb-cli
+    networks:
+      - pipeline
+
+  sudo-log:
+    image: sudo_log:1
+    container_name: sudo-log
+    restart: on-failure
+    depends_on:
+      - broker-1
+      - broker-2
+      - broker-3
+      - db
+    networks:
+      - pipeline
+
+
+  ksqldb-cli:
+      image: confluentinc/cp-ksqldb-cli:7.8.0
+      container_name: ksqldb-cli
+      depends_on:
+      - ksqldb-server
+      entrypoint: /bin/sh
+      tty: true
+      networks:
+        - pipeline  
+
+  db:
+    image: postgres:latest
+    container_name: db
+    environment:
+      POSTGRES_PASSWORD: password
+    networks:
+      - pipeline

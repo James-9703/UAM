@@ -1,0 +1,10 @@
+lowercaseOutputName: true
+rules:
+  - pattern: kafka.controller<type=KafkaController, name=ActiveControllerCount><>Value
+    name: kafka_controller_active_controller_count
+
+  - pattern: kafka.controller<type=ControllerStats,name=LeaderElectionRateAndTimeMs><>Value
+    name: leader_election_rate_and_latency
+
+  - pattern: kafka.server<type=raft-metrics>
+    name: election-latency-avg
