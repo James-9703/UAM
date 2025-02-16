@@ -9,6 +9,9 @@ import java.io.IOException;
 import java.util.*;
 import org.apache.kafka.clients.producer.*;
 import org.apache.kafka.common.serialization.StringSerializer;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 //import io.prometheus.metrics.core.metrics.Counter;
 //import io.prometheus.metrics.exporter.httpserver.HTTPServer;
 public class Producer {
@@ -22,7 +25,7 @@ public class Producer {
             ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG,
             StringSerializer.class,
             ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG,
-            GsonSerializer.class,
+            StringSerializer.class,
             ProducerConfig.ENABLE_IDEMPOTENCE_CONFIG,
             true
         );
@@ -35,14 +38,16 @@ public class Producer {
           .port(9400)
           .buildAndStart();*/
 
-
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
         appRecord record = new appRecord();
-        try (var producer = new KafkaProducer<String, appRecord>(config)) {
+        try (var producer = new KafkaProducer<String, String>(config)) {
             while (true) {
                 record.setFirewall();;
                 record.setIdleTime();
                 record.setPw();
                 record.setOpenedApp();
+                String json = gson.toJson(record);
+               // System.err.println(json);
                // eventCounter.inc();
                 final Callback callback = (metadata, exception) -> {
                     out.format(
@@ -54,7 +59,7 @@ public class Producer {
                
                 // publish the record, handling the metadata in the callback
                 producer.send(
-                    new ProducerRecord<>(topic,record.getUserName(), record),
+                    new ProducerRecord<>(topic,record.getUserName(), json),
                     callback
                 );
                 // wait a second before publishing another

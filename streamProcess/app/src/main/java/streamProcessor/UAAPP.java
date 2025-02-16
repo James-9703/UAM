@@ -22,7 +22,7 @@ public class UAAPP {
         config.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, "broker-1:19092,broker-2:19092,broker-3:19092");
        // config.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
         config.put(StreamsConfig.DEFAULT_KEY_SERDE_CLASS_CONFIG,Serdes.String().getClass());
-        config.put(StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_CONFIG,serde.AppSerde.class);
+        config.put(StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_CONFIG,Serdes.String().getClass());
       //  config.put(StreamsConfig.APPLICATION_SERVER_CONFIG, endpoint);
 
 

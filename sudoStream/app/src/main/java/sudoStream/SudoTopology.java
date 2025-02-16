@@ -16,7 +16,7 @@ import java.util.Properties;
 public class SudoTopology {
     public static Topology build() throws SQLException, MessagingException, IOException {
 
-        final String jdbc_url = "jdbc:postgresql://db:5432/postgres?user=postgres&password=password";
+        final String jdbc_url = "jdbc:postgresql://localhost:5432/postgres?user=postgres&password=password";
         Connection conn = DriverManager.getConnection(jdbc_url);
         try (Statement stmt = conn.createStatement()) {
             stmt.execute("CREATE TABLE IF NOT EXISTS sudo (id SERIAL PRIMARY KEY, log TEXT)");

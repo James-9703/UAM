@@ -1,0 +1,31 @@
+{
+  "userName": "jkoh",
+  "ip": "192.168.1.169",
+  "openedApp": [
+    "How to Install GSON Module in Java? - GeeksforGeeks — Mozilla Firefox ",
+    "Mastering Kafka Streams and ksqlDB — Okular ",
+    "Producer.java - producer - Visual Studio Code ",
+    "UAM — Dolphin ",
+    "UAM : bash — Konsole "
+  ],
+  "idleTime": 521,
+  "firewall": true,
+  "pw": 100,
+  "violation": ""
+}
+
+{
+  "userName": "jkoh",
+  "ip": "192.168.1.169",
+  "openedApp": [
+    "How to Install GSON Module in Java? - GeeksforGeeks — Mozilla Firefox ",
+    "Mastering Kafka Streams and ksqlDB — Okular ",
+    "Producer.java - producer - Visual Studio Code ",
+    "UAM — Dolphin ",
+    "UAM : bash — Konsole "
+  ],
+  "idleTime": 521,
+  "firewall": true,
+  "pw": 100,
+  "violation": ""
+}
