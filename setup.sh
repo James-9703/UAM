@@ -49,6 +49,6 @@ chmod o+r /tmp/sudo
 if  which java &> /dev/null; then
 	echo "java installed"
   else
-	dpkg -i jdk-21_linux-x64_bin.deb
+	echo "java not installed, recommend jdk21"
 fi
 
