@@ -12,7 +12,6 @@ public class appRecord {
     private int idleTime;
     private boolean firewall;
     private int  pw;
-    //0 - unauthorized app, 1 - idletime, 2 - firewall, 3 - encryption
     public String violation = "";    
     
     public appRecord () {

@@ -29,10 +29,10 @@ public class integrationTest {
        
 
 
-        // 2. Initialize Kafka Producer to send test data
+        //Initialize Kafka Producer to send test data
         producer = createProducer();
 
-    //     3. Initialize Database Connection for verification
+    //   Initialize Database Connection for verification
         String jdbc_url = "jdbc:postgresql://localhost:5432/postgres?user=postgres&password=password"; // Use JDBC_URL from env if available, else default
         dbConn = DriverManager.getConnection(jdbc_url); 
     }
@@ -55,7 +55,7 @@ public class integrationTest {
         String testCommand = "sudo apt update";
         String testKey = "test-key";
 
-        // 1. Produce a message to the input topic
+        //Produce a message to the input topic
         ProducerRecord<String, String> record = new ProducerRecord<>("privilege_command", testKey, testCommand);
         producer.send(record).get(); // Wait for send to complete
 
@@ -79,12 +79,12 @@ public class integrationTest {
             fail("Interrupted during sleep: " + e.getMessage());
         }
 
-        // 2. Verify database insertion
+        //  Verify database insertion
         String logFromDb = fetchLogFromDatabase();
         assertNotNull(logFromDb, "Log should be inserted into the database");
         assertEquals(testCommand, logFromDb, "Log content in database should match the command");
 
-        // 3. Email Verification (Manual - Check your Gmail sent folder)
+        //  Email Verification (Manual - Check your Gmail sent folder)
         System.out.println("Manually check your Gmail sent folder for the 'Privilege escalation alert' email.");
         // In a more advanced setup, you'd use a mock email server and verify programmatically
     }

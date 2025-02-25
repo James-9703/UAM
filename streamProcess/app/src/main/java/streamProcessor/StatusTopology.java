@@ -1,6 +1,5 @@
 package streamProcessor;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -16,7 +15,6 @@ import org.apache.kafka.streams.kstream.KTable;
 
 import com.google.gson.Gson;
 
-import serde.AppSerde;
 
 
 public class StatusTopology {
@@ -79,10 +77,6 @@ public class StatusTopology {
 
         outputStream.to("statusV");
 
-       /* ,
-        Materialized.<String, appRecord, KeyValueStore<Bytes, byte[]>>as("StatusViolation").with(Serdes.String(),AppSerde.appRecordSerde()));*/
-        //StreamsBuilder b = new StreamsBuilder();
-        
         
         return builder.build();
     }

@@ -136,30 +136,6 @@ services:
         - broker-2
         - broker-3
 
-  userstat:
-    image: user_stat:1
-    container_name: user_stat-Kstream
-    restart: on-failure
-    depends_on:
-      - broker-1
-      - broker-2
-      - broker-3
-      - ksqldb-cli
-    networks:
-      - pipeline
-
-  sudo-log:
-    image: sudo_log:1
-    container_name: sudo-log
-    restart: on-failure
-    depends_on:
-      - broker-1
-      - broker-2
-      - broker-3
-      - db
-    networks:
-      - pipeline
-
 
   ksqldb-cli:
       image: confluentinc/cp-ksqldb-cli:7.8.0

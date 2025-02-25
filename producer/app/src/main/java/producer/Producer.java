@@ -1,15 +1,11 @@
 package producer;
 
-import serde.GsonSerializer;
+
 import static java.lang.System.*;
-//import java.io.BufferedReader;
-//import java.io.File;
 import java.io.IOException;
-//import java.io.InputStreamReader;
 import java.util.*;
 import org.apache.kafka.clients.producer.*;
 import org.apache.kafka.common.serialization.StringSerializer;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 //import io.prometheus.metrics.core.metrics.Counter;
@@ -30,8 +26,6 @@ public class Producer {
             true
         );
  
-        //get running app and produce record
-                // "xprop -root _NET_ACTIVE_WINDOW | cut -d ' ' -f 5 | xargs -I {} xprop -id {} WM_NAME";
        // Counter eventCounter = Counter.builder().name("eventCounter").help("number of event process").register();
         
        /* HTTPServer server = HTTPServer.builder()
