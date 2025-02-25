@@ -28,7 +28,7 @@ Before setting up the system, ensure you have the following installed:
 
 Clone the Repository
 ```bash
-    git clone <repository-url>
+    git clone https://github.com/James-9703/UAM.git
     cd UAM/
 ```
 Install Dependencies
