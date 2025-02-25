@@ -21,7 +21,8 @@ Before setting up the system, ensure you have the following installed:
 
 1. Git
 2. Docker and Docker Compose
-3. Linux with xorg and account with sudo access (This project is tested on Kubuntu)
+3. Java, made with java21 but older version should not be an issue
+4. Linux with xorg and account with sudo access (This project is tested on Kubuntu)
 
 ## Setup Instructions
 
