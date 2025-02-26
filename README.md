@@ -19,9 +19,9 @@ This project is a User Activity Monitoring (UAM) prototype system built using Ap
 ## Prerequisites
 Before setting up the system, ensure you have the following installed:
 
-1. Git
+1. Git ```apt-get install git```
 2. Docker and Docker Compose
-3. Java, made with java21 but older version should not be an issue
+3. Java, made with java21 https://docs.oracle.com/en/java/javase/21/install/installation-jdk-linux-platforms.html#GUID-ADC9C14A-5F51-4C32-802C-9639A947317F
 4. Linux with xorg and account with sudo access (This project is tested on Kubuntu)
 
 ## Setup Instructions
