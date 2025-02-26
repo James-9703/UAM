@@ -21,8 +21,9 @@ Before setting up the system, ensure you have the following installed:
 
 1. Git ```apt-get install git```
 2. Docker and Docker Compose
-3. Java, made with 21 https://www.oracle.com/my/java/technologies/downloads/#java21
-4. Linux with xorg and account with sudo access (This project is tested on Kubuntu)
+3. Java, download from https://www.oracle.com/my/java/technologies/downloads/#java21
+   ```sudo dpkg -i jdk-21_linux-x64_bin.deb```
+5. Linux with xorg and account with sudo access (This project is tested on Kubuntu)
 
 ## Setup Instructions
 
