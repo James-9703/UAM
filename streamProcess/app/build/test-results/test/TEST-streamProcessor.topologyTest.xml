@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="streamProcessor.topologyTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2025-02-12T14:51:35" hostname="zenPC" time="0.109">
+  <properties/>
+  <testcase name="testTopology()" classname="streamProcessor.topologyTest" time="0.109"/>
+  <system-out><![CDATA[idle more than 10s;  using Wireshark  firewall is off; password policy incorrect
+]]></system-out>
+  <system-err><![CDATA[Feb 12, 2025 10:51:35 PM org.apache.kafka.streams.processor.internals.StreamTask initializeIfNeeded
+INFO: stream-thread [Test worker] task [0_0] Initialized
+Feb 12, 2025 10:51:35 PM org.apache.kafka.streams.processor.internals.StreamTask completeRestoration
+INFO: stream-thread [Test worker] task [0_0] Restored and ready to run
+Feb 12, 2025 10:51:35 PM org.apache.kafka.streams.processor.internals.StreamTask transitToSuspend
+INFO: stream-thread [Test worker] task [0_0] Suspended from RUNNING
+Feb 12, 2025 10:51:35 PM org.apache.kafka.streams.processor.internals.RecordCollectorImpl closeClean
+INFO: topology-test-driver Closing record collector clean
+Feb 12, 2025 10:51:35 PM org.apache.kafka.streams.processor.internals.StreamTask closeClean
+INFO: stream-thread [Test worker] task [0_0] Closed clean
+]]></system-err>
+</testsuite>
