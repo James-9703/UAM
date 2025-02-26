@@ -3,14 +3,14 @@ networks:
 
 services:
   userstat:
-    image: user_stat:1
+    image: purplematter432/user_stat:1
     container_name: user_stat-Kstream
     restart: on-failure
     networks:
       - pipeline
 
   sudo-log:
-    image: sudo_log:1
+    image: purplematter432/sudo_log:1
     container_name: sudo-log
     restart: on-failure
     networks:
