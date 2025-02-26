@@ -83,6 +83,7 @@ docker exec -it db psql -U postgres
 In the PostgreSQL shell, run:
 ```sql
 select * from sudo;
+exit
 ```
 7. Monitor Security Violations.
 Start the ksql CLI as a dashboard to query the Kafka stream:
@@ -109,6 +110,15 @@ Query the stream to display violations in real-time:
 ```ksqldb-cli
 SELECT username, ip, violation FROM violation EMIT CHANGES;
 ```
+
+DEFAULT rules are:
+1. wireshark is not allowed
+   ``` sudo apt install wireshark && wireshark```
+2. password is set to change every 100 days 
+   ```sudo chage -M 101 $USER ```
+3. firewall status is tracked
+   ```sudo systemctl start ufw```
+4. unattended workstation: leave it idle for more than 10 seconds
 
 Contributing
 Feel free to submit issues or pull requests to improve this project. Contributions are welcome!
